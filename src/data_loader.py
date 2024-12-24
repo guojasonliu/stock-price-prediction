@@ -17,7 +17,13 @@ def load_ticker(ticker='^GSPC', start='1900-01-01', target_file='../data/s&p500.
             df.to_csv(target_file)
         
         df.index = pd.to_datetime(df.index)
-        return df.index.to_numpy(), df[('Adj Close', '^GSPC')].to_numpy()
+        date, adj_close = df.index.to_numpy(), df[('Adj Close', ticker)].to_numpy()
+        data_df = pd.DataFrame(
+        {
+            'Date': date,
+            'Adj Close': adj_close
+        })
+        return date, adj_close, data_df
 
     except Exception as e:
         print(f'Error occured while loading ticker {ticker}: {e}')
